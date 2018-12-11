@@ -1,0 +1,11 @@
+#game {
+  display: grid;
+  grid: repeat(3, 90px) / auto-flow 90px;
+  margin: 100px;
+}
+
+#game > div {
+  border: 1px solid;
+  height: 80px;
+  width: 80px;
+}
