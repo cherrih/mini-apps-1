@@ -7,3 +7,17 @@
 // but child objects might not contain the same properties. 
 // In all cases, every property you encounter must be present in the final CSV output.
 // You may also assume that child records in the JSON will always be in a property called `children`.
+
+// Use Express to serve up an index.html file and its associated assets
+// Implement all the report generation logic on the server. 
+// Do not use any external libraries (such as via npm). 
+
+const express = require('express');
+const app = express();
+const PORT = 3001;
+
+app.use(express.static('client'))
+
+app.get('/', (req, res) => res.send('Hello World'))
+
+app.listen(PORT, () => console.log('Listening on port: ', PORT))
