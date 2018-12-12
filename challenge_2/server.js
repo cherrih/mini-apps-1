@@ -13,11 +13,16 @@
 // Do not use any external libraries (such as via npm). 
 
 const express = require('express');
-const app = express();
 const PORT = 3001;
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
+const fs = require('fs');
+
+const CSVHTMLbuilder = require('./server/CSVhtml.js').CSVHTMLbuilder;
+const htmlRenderer = require('./server/CSVhtml.js').htmlRenderer;
+
+const app = express();
 
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -25,59 +30,11 @@ app.use(bodyParser.json());
 app.use(fileUpload());
 app.use(morgan('tiny'));
 
-var CSVbuilder = (input) => {
-  var output = '';
-  var array = [];
-
-  //make first row from keys joined by ','
-  for (var key in input) {
-    if (key !== 'children') {
-      array.push(key);
-    }
-  }
-  output += array.join(', ');
-
-  //make helper function
-  var fillValues = (obj) => {
-    var arr = [];
-    for (var key in obj){
-      if(key !== 'children') {
-        arr.push(obj[key])
-      }
-    }
-    output += '</br>' + arr.join(', ');
-    if (obj.children.length){
-      obj.children.forEach(child => {
-        fillValues(child);
-      })
-    }
-  }
-  fillValues(input);
-
-  return output;
-}
-
 app.post('/upload_json', (req, res) => { 
   var input = req.files.fileinput.data.toString();
   var jsonInput = JSON.parse(input);
-  var CSVOutput = CSVbuilder(jsonInput);
-  res.send(`
-    <html>
-      <head>
-        <title>CSV Report Generator</title>
-      </head>
-      <body>
-        <h2>CSV Report Generator</h2>
-        <form action="/upload_json" method="POST" enctype="multipart/form-data">
-          <input type="file" id="docpicker" accept=".json" name="fileinput">
-          <input type="submit" value="generate CSV">
-        </form>
-        <h2>Here's your CSV</h2>
-        <div>${CSVOutput}</div>
-        <script src="app.js"></script>
-      </body>
-    </html>
-  `);
+  var CSVOutput = CSVHTMLbuilder(jsonInput);
+  res.send(htmlRenderer(CSVOutput));
 });
 
 app.listen(PORT, () => console.log('Listening on port: ', PORT))
