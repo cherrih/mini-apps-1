@@ -22,12 +22,42 @@ app.use(express.static('client'));
 app.use(bodyParser());
 // app.use(morgan('tiny'));
 
-const buildCSV = (jsonInput) => {
-  
+var CSVbuilder = (input) => {
+  var output = '';
+  var array = [];
+
+  //make first row from keys joined by ','
+  for (var key in input) {
+    if (key !== 'children') {
+      array.push(key);
+    }
+  }
+  output += array.join(',');
+
+  //make helper function
+  var fillValues = (obj) => {
+    var arr = [];
+    for (var key in obj){
+      if(key !== 'children') {
+        arr.push(obj[key])
+      }
+    }
+    output += '\n' + arr.join(',');
+    if (obj.children.length){
+      obj.children.forEach(child => {
+        fillValues(child);
+      })
+    }
+  }
+  fillValues(input);
+
+  return output;
 }
 
 app.post('/upload_json', (req, res) => {
-  console.log(JSON.parse(req.body.input));
+  var jsonInput = JSON.parse(req.body.input);
+  var CSVOutput = CSVbuilder(jsonInput);
+  console.log(CSVOutput);
   res.send('I have posted')
 });
 
