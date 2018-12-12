@@ -19,7 +19,8 @@ const bodyParser = require('body-parser');
 // const morgan = require('morgan');
 
 app.use(express.static('client'));
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 // app.use(morgan('tiny'));
 
 var CSVbuilder = (input) => {
@@ -32,7 +33,7 @@ var CSVbuilder = (input) => {
       array.push(key);
     }
   }
-  output += array.join(',');
+  output += array.join(', ');
 
   //make helper function
   var fillValues = (obj) => {
@@ -42,7 +43,7 @@ var CSVbuilder = (input) => {
         arr.push(obj[key])
       }
     }
-    output += '\n' + arr.join(',');
+    output += '</br>' + arr.join(', ');
     if (obj.children.length){
       obj.children.forEach(child => {
         fillValues(child);
@@ -55,10 +56,26 @@ var CSVbuilder = (input) => {
 }
 
 app.post('/upload_json', (req, res) => {
+
   var jsonInput = JSON.parse(req.body.input);
   var CSVOutput = CSVbuilder(jsonInput);
-  console.log(CSVOutput);
-  res.send('I have posted')
+  res.send(`
+    <html>
+      <head>
+        <title>CSV Report Generator</title>
+      </head>
+      <body>
+        <h2>CSV Report Generator</h2>
+        <form action="/upload_json" method="POST">
+          <textarea name="input" type="text" rows="5" cols="33"></textarea>
+          <input type="submit" value="generate CSV">
+        </form>
+        <h2>Here's your CSV</h2>
+        <div>${CSVOutput}</div>
+        <script src="app.js"></script>
+      </body>
+    </html>
+  `);
 });
 
 app.listen(PORT, () => console.log('Listening on port: ', PORT))
