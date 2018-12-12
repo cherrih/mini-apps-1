@@ -1,0 +1,1 @@
+firstName, lastName, county, city, role, sales</n>Joshie,Wyattson,San Mateo,San Mateo,Broker,1000000</n>Beth Jr.,Johnson,San Mateo,Pacifica,Manager,2900000</n>Smitty,Won,San Mateo,Redwood City,Sales Person,4800000</n>Allen,Price,San Mateo,Burlingame,Sales Person,2500000</n>Beth,Johnson,San Francisco,San Francisco,Broker/Sales Person,7500000
