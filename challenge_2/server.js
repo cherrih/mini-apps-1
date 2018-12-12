@@ -16,12 +16,14 @@ const express = require('express');
 const app = express();
 const PORT = 3001;
 const bodyParser = require('body-parser');
-// const morgan = require('morgan');
+const fileUpload = require('express-fileupload');
+const morgan = require('morgan');
 
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-// app.use(morgan('tiny'));
+app.use(fileUpload());
+app.use(morgan('tiny'));
 
 var CSVbuilder = (input) => {
   var output = '';
@@ -55,9 +57,9 @@ var CSVbuilder = (input) => {
   return output;
 }
 
-app.post('/upload_json', (req, res) => {
-
-  var jsonInput = JSON.parse(req.body.input);
+app.post('/upload_json', (req, res) => { 
+  var input = req.files.fileinput.data.toString();
+  var jsonInput = JSON.parse(input);
   var CSVOutput = CSVbuilder(jsonInput);
   res.send(`
     <html>
@@ -66,8 +68,8 @@ app.post('/upload_json', (req, res) => {
       </head>
       <body>
         <h2>CSV Report Generator</h2>
-        <form action="/upload_json" method="POST">
-          <textarea name="input" type="text" rows="5" cols="33"></textarea>
+        <form action="/upload_json" method="POST" enctype="multipart/form-data">
+          <input type="file" id="docpicker" accept=".json" name="fileinput">
           <input type="submit" value="generate CSV">
         </form>
         <h2>Here's your CSV</h2>

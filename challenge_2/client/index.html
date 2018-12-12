@@ -4,11 +4,12 @@
   </head>
   <body>
     <h2>CSV Report Generator</h2>
-    <form action="/upload_json" method="POST">
-      <textarea name="input" type="text" rows="5" cols="33"></textarea>
+    <form action="/upload_json" method="POST" enctype="multipart/form-data">
+      <input type="file" id="docpicker" accept=".json" name="fileinput">
+      <!-- <textarea name="input" type="text" rows="5" cols="33"></textarea>
+      </br> -->
       <input type="submit" value="generate CSV">
     </form>
     <script src="app.js"></script>
   </body>
 </html>
-
