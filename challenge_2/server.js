@@ -15,9 +15,20 @@
 const express = require('express');
 const app = express();
 const PORT = 3001;
+const bodyParser = require('body-parser');
+// const morgan = require('morgan');
 
-app.use(express.static('client'))
+app.use(express.static('client'));
+app.use(bodyParser());
+// app.use(morgan('tiny'));
 
-app.get('/', (req, res) => res.send('Hello World'))
+const buildCSV = (jsonInput) => {
+  
+}
+
+app.post('/upload_json', (req, res) => {
+  console.log(JSON.parse(req.body.input));
+  res.send('I have posted')
+});
 
 app.listen(PORT, () => console.log('Listening on port: ', PORT))
