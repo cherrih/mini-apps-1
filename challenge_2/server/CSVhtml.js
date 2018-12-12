@@ -1,5 +1,6 @@
 const htmlRenderer = (csv) => {
 
+  var formatted = csv.split('</n>').join('</br>');
   
   return (
     `<html>
@@ -13,7 +14,7 @@ const htmlRenderer = (csv) => {
         <input type="submit" value="Generate CSV">
       </form>
       <h2>Here's your CSV</h2>
-      <div>${csv}</div>
+      <div>${formatted}</div>
       <form action="/download" method="GET">
         <input type="submit" value='Download'>
       </form>
