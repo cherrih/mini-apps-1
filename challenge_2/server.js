@@ -19,8 +19,8 @@ const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
 const fs = require('fs');
 
-const CSVHTMLbuilder = require('./server/CSVhtml.js').CSVHTMLbuilder;
 const htmlRenderer = require('./server/CSVhtml.js').htmlRenderer;
+const CSVbuilder = require('./server/buildCSV.js').CSVbuilder;
 
 const app = express();
 
@@ -33,8 +33,16 @@ app.use(morgan('tiny'));
 app.post('/upload_json', (req, res) => { 
   var input = req.files.fileinput.data.toString();
   var jsonInput = JSON.parse(input);
-  var CSVOutput = CSVHTMLbuilder(jsonInput);
-  res.send(htmlRenderer(CSVOutput));
+  var CSVOutput = CSVbuilder(jsonInput);
+
+  fs.writeFile('./server/data.csv', CSVOutput, (err) => {
+    if (err) { throw err; }
+    res.send(htmlRenderer(CSVOutput));
+  });
 });
+
+app.get('/download', (req, res) => {
+  res.download('./server/data.csv');
+})
 
 app.listen(PORT, () => console.log('Listening on port: ', PORT))
