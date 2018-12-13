@@ -14,8 +14,10 @@
   "dependencies": {
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "live-server": "^1.2.1",
+    "morgan": "^1.9.1",
     "node": "^11.4.0",
     "nodemon": "^1.18.8",
     "react": "^16.6.3"
