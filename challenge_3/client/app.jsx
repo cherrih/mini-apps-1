@@ -54,7 +54,7 @@ class App extends React.Component {
       headers: {
           "Content-Type": "application/json; charset=utf-8",
       },
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
     })
     .then(()=>{
       this.setState({isF1: false});
@@ -64,13 +64,44 @@ class App extends React.Component {
   }
   handleSubmitF2(event) {
     event.preventDefault();
-    this.setState({isF2: false});
-    this.setState({isF3: true});
+    var data = {
+      addressline1: this.state.addressline1,
+      addressline2: this.state.addressline2,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      phonenumber: this.state.phonenumber
+    }
+    fetch('/info', {
+      method: "POST",
+      headers: {"Content-Type": "application/json; charset=utf-8"},
+      body: JSON.stringify(data)
+    })
+    .then(()=>{
+      this.setState({isF2: false});
+      this.setState({isF3: true});
+      console.log('Posted!');
+    })
   }
   handleSubmitF3(event) {
     event.preventDefault();
-    this.setState({isF3: false});
-    this.setState({isConfirmation: true});
+    var data = {
+      creditcardnumber: this.state.creditcardnumber,
+      expiry: this.state.expiry,
+      cvv: this.state.cvv,
+      billingzip: this.state.billingzip
+    }
+    fetch('/info', {
+      method: "POST",
+      headers: {"Content-Type": "application/json; charset=utf-8"},
+      body: JSON.stringify(data), 
+    })
+    .then(()=>{
+      this.setState({isF3: false});
+      this.setState({isConfirmation: true});
+      console.log('Posted!')
+    })
+    
   }
   handleClickConfirmation(event) {
     event.preventDefault();
