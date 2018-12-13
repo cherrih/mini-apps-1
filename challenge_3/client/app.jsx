@@ -30,9 +30,10 @@ class App extends React.Component {
     this.handleSubmitF3 = this.handleSubmitF3.bind(this);
     this.handleClickConfirmation = this.handleClickConfirmation.bind(this);
   }
-
+  returnData() {
+    return 
+  }
   
-
   handleClickCheckout(event) {
     event.preventDefault();
     this.setState({isHome: false});
@@ -117,11 +118,15 @@ class App extends React.Component {
         <F1 isF1={this.state.isF1} handleSubmit={this.handleSubmitF1} handleChange={this.handleChange}/>
         <F2 isF2={this.state.isF2} handleSubmit={this.handleSubmitF2} handleChange={this.handleChange}/>
         <F3 isF3={this.state.isF3} handleSubmit={this.handleSubmitF3} handleChange={this.handleChange}/>
-        <Confirmation isConfirmation={this.state.isConfirmation} handleClick={this.handleClickConfirmation}/>
+        <Confirmation isConfirmation={this.state.isConfirmation} handleClick={this.handleClickConfirmation} data={this.state}/>
       </div>
     )
   }
 }
+
+//////////////////
+//  COMPONENTS  //
+//////////////////
 
 const Checkout = props => {
   if (props.isHome) {
@@ -207,6 +212,12 @@ const Confirmation = props => {
     return (
       <div>
         <h3>does this look right?</h3>
+          <div>name: {props.data.name}</div>
+          <div>email: {props.data.email}</div>
+          <div>address: {props.data.addressline1} {props.data.addressline2} {props.data.city} {props.data.zip}</div>
+          <div>phone number: {props.data.phonenumber}</div>
+          <div>billing zip code: {props.data.billingzip}</div>
+          <br/>
         <button onClick={props.handleClick}>yup, purchase away!</button>
       </div>
     )
