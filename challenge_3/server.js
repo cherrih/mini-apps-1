@@ -11,6 +11,7 @@ app.use(morgan('tiny'))
 app.post('/info', (req, res) => {
   console.log(req.body);
   res.send('Got it!')
+  //querystring
 })
 
 app.listen(PORT, () => (console.log(`Listening on ${PORT}`)));
