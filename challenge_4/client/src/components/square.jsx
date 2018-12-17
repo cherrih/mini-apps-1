@@ -2,10 +2,7 @@ import React from 'react';
 
 const Square = props => {
   return (
-    <div>
-      <div> []</div>
-    </div>
-
+    <span>{props.row}</span>
   )
 }
 

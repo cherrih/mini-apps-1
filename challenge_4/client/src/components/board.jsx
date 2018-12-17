@@ -1,11 +1,10 @@
 import React from 'react';
-import Row from './row.jsx';
+import Column from './Column.jsx';
 
 const Board = props => {
   return (
-    <div>
-      <div>this is my board</div>
-      <Row/>
+    <div id='board'>
+      {props.board.map((column, index) => <Column column={column} index={index}/>)}
     </div>
   )
 }

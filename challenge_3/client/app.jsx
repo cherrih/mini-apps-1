@@ -36,77 +36,68 @@ class App extends React.Component {
   
   handleClickCheckout(event) {
     event.preventDefault();
-    this.setState({isHome: false});
-    this.setState({isF1: true});
+    this.setState({isHome: false, isF1: true});
   }
   handleChange(event) {
     this.setState({[event.target.name]: event.target.value});
   }
   handleSubmitF1(event) {
     event.preventDefault();
-    var data = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password
-    }
-    fetch('/info', {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      headers: {
-          "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(data) // body data type must match "Content-Type" header
-    })
-    .then(()=>{
-      this.setState({isF1: false});
-      this.setState({isF2: true});
-      console.log('Posted!');
-    })
+    this.setState({isF1: false, isF2: true});
   }
   handleSubmitF2(event) {
     event.preventDefault();
+    this.setState({isF2: false, isF3: true});
+  }
+  handleSubmitF3(event) {
+    event.preventDefault();
+    this.setState({isF3: false, isConfirmation: true});
+  }
+  handleClickConfirmation(event) {
+    event.preventDefault();
+    console.log(this.state);
     var data = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
       addressline1: this.state.addressline1,
       addressline2: this.state.addressline2,
       city: this.state.city,
       state: this.state.state,
       zip: this.state.zip,
-      phonenumber: this.state.phonenumber
-    }
-    fetch('/info', {
-      method: "POST",
-      headers: {"Content-Type": "application/json; charset=utf-8"},
-      body: JSON.stringify(data)
-    })
-    .then(()=>{
-      this.setState({isF2: false});
-      this.setState({isF3: true});
-      console.log('Posted!');
-    })
-  }
-  handleSubmitF3(event) {
-    event.preventDefault();
-    var data = {
+      phonenumber: this.state.phonenumber,
       creditcardnumber: this.state.creditcardnumber,
       expiry: this.state.expiry,
       cvv: this.state.cvv,
       billingzip: this.state.billingzip
     }
+
     fetch('/info', {
       method: "POST",
       headers: {"Content-Type": "application/json; charset=utf-8"},
       body: JSON.stringify(data), 
     })
     .then(()=>{
-      this.setState({isF3: false});
-      this.setState({isConfirmation: true});
-      console.log('Posted!')
+      this.setState({isConfirmation: false,
+        isHome: true, 
+        name: '',
+        email: '',
+        password: '',
+        addressline1: '',
+        addressline2: '',
+        city: '',
+        state: '',
+        zip: '',
+        phonenumber: '',
+        creditcardnumber: '',
+        expiry: '',
+        cvv: '',
+        billingzip: '',
+      });
+      console.log(this.state);
+      alert('Purchased!')
     })
-    
-  }
-  handleClickConfirmation(event) {
-    event.preventDefault();
-    this.setState({isConfirmation: false});
-    this.setState({isHome: true});
+
   }
 
   render() {

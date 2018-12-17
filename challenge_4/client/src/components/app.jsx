@@ -5,7 +5,6 @@
 
 // Build your client app inside the client folder. 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Board from './board.jsx';
 
 class App extends React.Component {
@@ -13,18 +12,20 @@ class App extends React.Component {
     super(props);
     this.state = {
       board: [
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0]
+        
+        [0,1,2,3,4,5],
+        [0,1,2,3,4,5],
+        [0,1,2,3,4,5],
+        [0,1,2,3,4,5],
+        [0,1,2,3,4,5],
+        [0,1,2,3,4,5],
+        [0,1,2,3,4,5]
       ]
     }
   }
 
   render() {
-    return <Board/>
+    return <Board board={this.state.board}/>
   }
 }
 
